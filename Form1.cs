@@ -10,7 +10,7 @@ public partial class Form1: Form
     public Form1()
     {
         this.InitializeComponent();
-        this.Flp_items.AllowDrop = true;
+        this.Flp_Items.AllowDrop = true;
     }
 
     private void Gb_Items_DragEnter(object sender, DragEventArgs e)
@@ -69,15 +69,39 @@ public partial class Form1: Form
     private void AddItem(QItem item)
     {
         this.items.Add(item);
-        var view = new QItemView(item);
-        this.Flp_items.Controls.Add(view);
+        var view = new QItemView(item)
+        {
+        };
+        //this.Flp_Items.SizeChanged += (s, e) =>
+        //{
+        //    view.Width = this.Flp_Items.ClientSize.Width;
+        //};
+        view.OnClick += (s, e) => item.Log = string.Empty;
+        this.Flp_Items.Controls.Add(view);
     }
 
     private void button1_Click(object sender, EventArgs e)
     {
+        for (var i = 0; i < this.items.Count; i++)
+        {
+            var item = this.items[i];
+            if (i % 2 == 0)
+            {
+                item.Log = $"{this.Tb_Cmd.Text} {item.Path}";
+            }
+            else
+            {
+                item.Error = $"Error {this.Tb_Cmd.Text} {item.Path}";
+            }
+        }
+    }
+
+    private void Btn_CmdReplace_Click(object sender, EventArgs e)
+    {
+        var cmd = this.Tb_Cmd.Text;
         foreach (var item in this.items)
         {
-            item.Path = item.Path.Split("\\").Last();
+            item.Log = cmd.Replace("{input}", item.Path);
         }
     }
 }

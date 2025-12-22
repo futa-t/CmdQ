@@ -18,6 +18,14 @@ public partial class QItemView: UserControl
     private void UpdateView()
     {
         this.Lb_Item.Text  = this.Item.Path;
+        this.Pb_Status.Image = this.Item.Status switch
+        {
+            QItemStatus.Pending => null,
+            QItemStatus.Processing => Properties.Resources.icon_progress_24,
+            QItemStatus.Success => Properties.Resources.icon_check_24,
+            QItemStatus.Failed => Properties.Resources.icon_failed_24,
+            _ => null
+        };
         this.Pb_FileType.Image = this.Item.ItemType switch
         {
             QItemType.File => Properties.Resources.icon_file_24,
@@ -25,6 +33,22 @@ public partial class QItemView: UserControl
             QItemType.Url => Properties.Resources.icon_link_24,
             _ => null
         };
+        this.UpdateLog();
+        this.UpdateError();
+    }
+    private void UpdateError()
+    {
+        if (string.IsNullOrWhiteSpace(this.Item.Error)) return;
+        this.Lb_Log.ForeColor = Color.Crimson;
+        this.Lb_Log.Text = this.Item.Error;
+        this.Lb_Log.Visible = true;
+    }
+
+    private void UpdateLog()
+    {
+        this.Lb_Log.ForeColor = SystemColors.ControlDarkDark;
+        this.Lb_Log.Text = this.Item.Log;
+        this.Lb_Log.Visible = !string.IsNullOrWhiteSpace(this.Item.Log);
     }
 
     private void Item_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

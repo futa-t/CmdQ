@@ -63,6 +63,26 @@ namespace CmdQ.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap icon_check_24 {
+            get {
+                object obj = ResourceManager.GetObject("icon-check-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_failed_24 {
+            get {
+                object obj = ResourceManager.GetObject("icon-failed-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap icon_file {
             get {
                 object obj = ResourceManager.GetObject("icon-file", resourceCulture);
@@ -116,6 +136,16 @@ namespace CmdQ.Properties {
         internal static System.Drawing.Bitmap icon_link_24 {
             get {
                 object obj = ResourceManager.GetObject("icon-link-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap icon_progress_24 {
+            get {
+                object obj = ResourceManager.GetObject("icon-progress-24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

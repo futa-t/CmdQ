@@ -31,10 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.splitContainer1 = new SplitContainer();
             this.Gb_Items = new GroupBox();
-            this.Flp_items = new FlowLayoutPanel();
+            this.Flp_Items = new FlowLayoutPanel();
             this.button1 = new Button();
             this.Pnl_Cmd = new GroupBox();
-            this.textBox1 = new TextBox();
+            this.Tb_Cmd = new TextBox();
+            this.Btn_CmdExecute = new Button();
+            this.Btn_CmdReplace = new Button();
             ((System.ComponentModel.ISupportInitialize)this.splitContainer1).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -69,7 +71,7 @@
             // 
             // Gb_Items
             // 
-            this.Gb_Items.Controls.Add(this.Flp_items);
+            this.Gb_Items.Controls.Add(this.Flp_Items);
             this.Gb_Items.Dock = DockStyle.Fill;
             this.Gb_Items.Location = new Point(2, 4);
             this.Gb_Items.Margin = new Padding(3, 2, 3, 2);
@@ -80,18 +82,18 @@
             this.Gb_Items.TabStop = false;
             this.Gb_Items.Text = "キュー";
             // 
-            // Flp_items
+            // Flp_Items
             // 
-            this.Flp_items.AutoScroll = true;
-            this.Flp_items.Dock = DockStyle.Fill;
-            this.Flp_items.FlowDirection = FlowDirection.TopDown;
-            this.Flp_items.Location = new Point(3, 14);
-            this.Flp_items.Name = "Flp_items";
-            this.Flp_items.Size = new Size(710, 653);
-            this.Flp_items.TabIndex = 0;
-            this.Flp_items.WrapContents = false;
-            this.Flp_items.DragDrop += this.Gb_Items_DragDrop;
-            this.Flp_items.DragEnter += this.Gb_Items_DragEnter;
+            this.Flp_Items.AutoScroll = true;
+            this.Flp_Items.Dock = DockStyle.Fill;
+            this.Flp_Items.FlowDirection = FlowDirection.TopDown;
+            this.Flp_Items.Location = new Point(3, 14);
+            this.Flp_Items.Name = "Flp_Items";
+            this.Flp_Items.Size = new Size(710, 653);
+            this.Flp_Items.TabIndex = 0;
+            this.Flp_Items.WrapContents = false;
+            this.Flp_Items.DragDrop += this.Gb_Items_DragDrop;
+            this.Flp_Items.DragEnter += this.Gb_Items_DragEnter;
             // 
             // button1
             // 
@@ -105,7 +107,9 @@
             // 
             // Pnl_Cmd
             // 
-            this.Pnl_Cmd.Controls.Add(this.textBox1);
+            this.Pnl_Cmd.Controls.Add(this.Btn_CmdReplace);
+            this.Pnl_Cmd.Controls.Add(this.Btn_CmdExecute);
+            this.Pnl_Cmd.Controls.Add(this.Tb_Cmd);
             this.Pnl_Cmd.Dock = DockStyle.Top;
             this.Pnl_Cmd.Location = new Point(2, 4);
             this.Pnl_Cmd.Margin = new Padding(3, 2, 3, 2);
@@ -116,14 +120,35 @@
             this.Pnl_Cmd.TabStop = false;
             this.Pnl_Cmd.Text = "コマンド";
             // 
-            // textBox1
+            // Tb_Cmd
             // 
-            this.textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            this.textBox1.Location = new Point(7, 22);
-            this.textBox1.Margin = new Padding(3, 2, 3, 2);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new Size(516, 19);
-            this.textBox1.TabIndex = 0;
+            this.Tb_Cmd.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            this.Tb_Cmd.Location = new Point(7, 22);
+            this.Tb_Cmd.Margin = new Padding(3, 2, 3, 2);
+            this.Tb_Cmd.Name = "Tb_Cmd";
+            this.Tb_Cmd.Size = new Size(516, 19);
+            this.Tb_Cmd.TabIndex = 0;
+            this.Tb_Cmd.Text = "command";
+            // 
+            // Btn_CmdExecute
+            // 
+            this.Btn_CmdExecute.Location = new Point(448, 213);
+            this.Btn_CmdExecute.Name = "Btn_CmdExecute";
+            this.Btn_CmdExecute.Size = new Size(75, 23);
+            this.Btn_CmdExecute.TabIndex = 2;
+            this.Btn_CmdExecute.Text = "実行";
+            this.Btn_CmdExecute.UseVisualStyleBackColor = true;
+            // 
+            // Btn_CmdReplace
+            // 
+            this.Btn_CmdReplace.AutoSize = true;
+            this.Btn_CmdReplace.Location = new Point(360, 213);
+            this.Btn_CmdReplace.Name = "Btn_CmdReplace";
+            this.Btn_CmdReplace.Size = new Size(82, 23);
+            this.Btn_CmdReplace.TabIndex = 3;
+            this.Btn_CmdReplace.Text = "コマンド確認";
+            this.Btn_CmdReplace.UseVisualStyleBackColor = true;
+            this.Btn_CmdReplace.Click += this.Btn_CmdReplace_Click;
             // 
             // Form1
             // 
@@ -131,6 +156,7 @@
             this.AutoScaleMode = AutoScaleMode.None;
             this.ClientSize = new Size(1264, 681);
             this.Controls.Add(this.splitContainer1);
+            this.DoubleBuffered = true;
             this.Font = new Font("BIZ UDPゴシック", 9F, FontStyle.Regular, GraphicsUnit.Point, 128);
             this.Icon = (Icon)resources.GetObject("$this.Icon");
             this.Margin = new Padding(3, 2, 3, 2);
@@ -151,9 +177,11 @@
 
         private SplitContainer splitContainer1;
         private GroupBox Pnl_Cmd;
-        private TextBox textBox1;
+        private TextBox Tb_Cmd;
         private GroupBox Gb_Items;
-        private FlowLayoutPanel Flp_items;
         private Button button1;
+        private FlowLayoutPanel Flp_Items;
+        private Button Btn_CmdReplace;
+        private Button Btn_CmdExecute;
     }
 }

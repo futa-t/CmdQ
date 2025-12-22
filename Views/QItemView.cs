@@ -11,12 +11,21 @@ public partial class QItemView: UserControl
         this.InitializeComponent();
         this.Item = item;
         this.Item.PropertyChanged +=this.Item_PropertyChanged;
+        this.Item.Logs.CollectionChanged += (s, e) => this.UpdateView();
+        this.Item.Errors.CollectionChanged += (s, e) => this.UpdateView();
         this.Lb_Item.Click += this.Lb_Item_Click;
         this.UpdateView();
     }
 
+
     private void UpdateView()
     {
+        if (this.InvokeRequired)
+        {
+            this.Invoke(new Action(this.UpdateView));
+            return;
+        }
+
         this.Lb_Item.Text  = this.Item.Path;
         this.Pb_Status.Image = this.Item.Status switch
         {

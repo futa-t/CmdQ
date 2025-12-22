@@ -32,17 +32,33 @@
             this.splitContainer1 = new SplitContainer();
             this.Gb_Items = new GroupBox();
             this.Flp_Items = new FlowLayoutPanel();
-            this.button1 = new Button();
+            this.groupBox2 = new GroupBox();
+            this.TbLog = new RichTextBox();
+            this.groupBox1 = new GroupBox();
+            this.button9 = new Button();
+            this.button2 = new Button();
+            this.button4 = new Button();
+            this.button6 = new Button();
+            this.button7 = new Button();
+            this.button5 = new Button();
+            this.button8 = new Button();
+            this.button3 = new Button();
             this.Pnl_Cmd = new GroupBox();
-            this.Tb_Cmd = new TextBox();
-            this.Btn_CmdExecute = new Button();
+            this.panel1 = new Panel();
+            this.Btn_CmdAdd = new Button();
+            this.Btn_Test = new Button();
             this.Btn_CmdReplace = new Button();
+            this.Btn_CmdExecute = new Button();
+            this.Flp_Cmd = new FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)this.splitContainer1).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.Gb_Items.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.Pnl_Cmd.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -60,7 +76,8 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.button1);
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
             this.splitContainer1.Panel2.Controls.Add(this.Pnl_Cmd);
             this.splitContainer1.Panel2.Padding = new Padding(2, 4, 2, 4);
             this.splitContainer1.Size = new Size(1256, 677);
@@ -95,60 +112,226 @@
             this.Flp_Items.DragDrop += this.Gb_Items_DragDrop;
             this.Flp_Items.DragEnter += this.Gb_Items_DragEnter;
             // 
-            // button1
+            // groupBox2
             // 
-            this.button1.Location = new Point(30, 629);
-            this.button1.Name = "button1";
-            this.button1.Size = new Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += this.button1_Click;
+            this.groupBox2.Controls.Add(this.TbLog);
+            this.groupBox2.Dock = DockStyle.Fill;
+            this.groupBox2.Location = new Point(2, 346);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new Padding(8, 4, 8, 4);
+            this.groupBox2.Size = new Size(530, 327);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "ログ";
+            // 
+            // TbLog
+            // 
+            this.TbLog.BackColor = SystemColors.Control;
+            this.TbLog.BorderStyle = BorderStyle.None;
+            this.TbLog.Dock = DockStyle.Fill;
+            this.TbLog.Location = new Point(8, 16);
+            this.TbLog.Name = "TbLog";
+            this.TbLog.ReadOnly = true;
+            this.TbLog.ScrollBars = RichTextBoxScrollBars.Vertical;
+            this.TbLog.Size = new Size(514, 307);
+            this.TbLog.TabIndex = 0;
+            this.TbLog.Text = "";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.button9);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button4);
+            this.groupBox1.Controls.Add(this.button6);
+            this.groupBox1.Controls.Add(this.button7);
+            this.groupBox1.Controls.Add(this.button5);
+            this.groupBox1.Controls.Add(this.button8);
+            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Dock = DockStyle.Top;
+            this.groupBox1.Location = new Point(2, 246);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new Size(530, 100);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "テンプレート";
+            // 
+            // button9
+            // 
+            this.button9.AutoSize = true;
+            this.button9.Location = new Point(233, 49);
+            this.button9.Name = "button9";
+            this.button9.Size = new Size(175, 25);
+            this.button9.TabIndex = 5;
+            this.button9.Tag = "{stem}";
+            this.button9.Text = "ファイル名のみ(拡張子なし)";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += this.InsertTemplate;
+            // 
+            // button2
+            // 
+            this.button2.AutoSize = true;
+            this.button2.Location = new Point(88, 49);
+            this.button2.Name = "button2";
+            this.button2.Size = new Size(139, 25);
+            this.button2.TabIndex = 5;
+            this.button2.Tag = "{fullstem}";
+            this.button2.Text = "ファイル名(拡張子なし)";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += this.InsertTemplate;
+            // 
+            // button4
+            // 
+            this.button4.AutoSize = true;
+            this.button4.Location = new Point(7, 49);
+            this.button4.Name = "button4";
+            this.button4.Size = new Size(75, 25);
+            this.button4.TabIndex = 4;
+            this.button4.Tag = "{parent}";
+            this.button4.Text = "親フォルダ";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += this.InsertTemplate;
+            // 
+            // button6
+            // 
+            this.button6.AutoSize = true;
+            this.button6.Location = new Point(7, 18);
+            this.button6.Name = "button6";
+            this.button6.Size = new Size(75, 25);
+            this.button6.TabIndex = 4;
+            this.button6.Tag = "{path}";
+            this.button6.Text = "フルパス";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += this.InsertTemplate;
+            // 
+            // button7
+            // 
+            this.button7.AutoSize = true;
+            this.button7.Location = new Point(414, 49);
+            this.button7.Name = "button7";
+            this.button7.Size = new Size(104, 25);
+            this.button7.TabIndex = 4;
+            this.button7.Tag = "{output}";
+            this.button7.Text = "出力テンプレート";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += this.InsertTemplate;
+            // 
+            // button5
+            // 
+            this.button5.AutoSize = true;
+            this.button5.Location = new Point(268, 18);
+            this.button5.Name = "button5";
+            this.button5.Size = new Size(75, 25);
+            this.button5.TabIndex = 4;
+            this.button5.Tag = "{ext}";
+            this.button5.Text = "拡張子";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += this.InsertTemplate;
+            // 
+            // button8
+            // 
+            this.button8.AutoSize = true;
+            this.button8.Location = new Point(169, 18);
+            this.button8.Name = "button8";
+            this.button8.Size = new Size(93, 25);
+            this.button8.TabIndex = 4;
+            this.button8.Tag = "{name}";
+            this.button8.Text = "ファイル名のみ";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += this.InsertTemplate;
+            // 
+            // button3
+            // 
+            this.button3.AutoSize = true;
+            this.button3.Location = new Point(88, 18);
+            this.button3.Name = "button3";
+            this.button3.Size = new Size(75, 25);
+            this.button3.TabIndex = 4;
+            this.button3.Tag = "{fullname}";
+            this.button3.Text = "ファイル名";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += this.InsertTemplate;
             // 
             // Pnl_Cmd
             // 
-            this.Pnl_Cmd.Controls.Add(this.Btn_CmdReplace);
-            this.Pnl_Cmd.Controls.Add(this.Btn_CmdExecute);
-            this.Pnl_Cmd.Controls.Add(this.Tb_Cmd);
+            this.Pnl_Cmd.Controls.Add(this.panel1);
+            this.Pnl_Cmd.Controls.Add(this.Flp_Cmd);
             this.Pnl_Cmd.Dock = DockStyle.Top;
             this.Pnl_Cmd.Location = new Point(2, 4);
             this.Pnl_Cmd.Margin = new Padding(3, 2, 3, 2);
             this.Pnl_Cmd.Name = "Pnl_Cmd";
-            this.Pnl_Cmd.Padding = new Padding(4, 8, 4, 8);
-            this.Pnl_Cmd.Size = new Size(530, 247);
+            this.Pnl_Cmd.Padding = new Padding(3, 2, 3, 2);
+            this.Pnl_Cmd.Size = new Size(530, 242);
             this.Pnl_Cmd.TabIndex = 0;
             this.Pnl_Cmd.TabStop = false;
             this.Pnl_Cmd.Text = "コマンド";
             // 
-            // Tb_Cmd
+            // panel1
             // 
-            this.Tb_Cmd.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            this.Tb_Cmd.Location = new Point(7, 22);
-            this.Tb_Cmd.Margin = new Padding(3, 2, 3, 2);
-            this.Tb_Cmd.Name = "Tb_Cmd";
-            this.Tb_Cmd.Size = new Size(516, 19);
-            this.Tb_Cmd.TabIndex = 0;
-            this.Tb_Cmd.Text = "command";
+            this.panel1.Controls.Add(this.Btn_CmdAdd);
+            this.panel1.Controls.Add(this.Btn_Test);
+            this.panel1.Controls.Add(this.Btn_CmdReplace);
+            this.panel1.Controls.Add(this.Btn_CmdExecute);
+            this.panel1.Dock = DockStyle.Bottom;
+            this.panel1.Location = new Point(3, 202);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new Size(524, 38);
+            this.panel1.TabIndex = 5;
             // 
-            // Btn_CmdExecute
+            // Btn_CmdAdd
             // 
-            this.Btn_CmdExecute.Location = new Point(448, 213);
-            this.Btn_CmdExecute.Name = "Btn_CmdExecute";
-            this.Btn_CmdExecute.Size = new Size(75, 23);
-            this.Btn_CmdExecute.TabIndex = 2;
-            this.Btn_CmdExecute.Text = "実行";
-            this.Btn_CmdExecute.UseVisualStyleBackColor = true;
+            this.Btn_CmdAdd.AutoSize = true;
+            this.Btn_CmdAdd.Location = new Point(4, 6);
+            this.Btn_CmdAdd.Name = "Btn_CmdAdd";
+            this.Btn_CmdAdd.Size = new Size(75, 25);
+            this.Btn_CmdAdd.TabIndex = 1;
+            this.Btn_CmdAdd.Text = "追加";
+            this.Btn_CmdAdd.UseVisualStyleBackColor = true;
+            this.Btn_CmdAdd.Click += this.Btn_CmdAdd_Click;
+            // 
+            // Btn_Test
+            // 
+            this.Btn_Test.AutoSize = true;
+            this.Btn_Test.Location = new Point(130, 6);
+            this.Btn_Test.Name = "Btn_Test";
+            this.Btn_Test.Size = new Size(75, 25);
+            this.Btn_Test.TabIndex = 1;
+            this.Btn_Test.Text = "テスト";
+            this.Btn_Test.UseVisualStyleBackColor = true;
+            this.Btn_Test.Click += this.BtnTestClick;
             // 
             // Btn_CmdReplace
             // 
             this.Btn_CmdReplace.AutoSize = true;
-            this.Btn_CmdReplace.Location = new Point(360, 213);
+            this.Btn_CmdReplace.Location = new Point(354, 6);
             this.Btn_CmdReplace.Name = "Btn_CmdReplace";
-            this.Btn_CmdReplace.Size = new Size(82, 23);
+            this.Btn_CmdReplace.Size = new Size(82, 25);
             this.Btn_CmdReplace.TabIndex = 3;
             this.Btn_CmdReplace.Text = "コマンド確認";
             this.Btn_CmdReplace.UseVisualStyleBackColor = true;
             this.Btn_CmdReplace.Click += this.Btn_CmdReplace_Click;
+            // 
+            // Btn_CmdExecute
+            // 
+            this.Btn_CmdExecute.AutoSize = true;
+            this.Btn_CmdExecute.Location = new Point(442, 6);
+            this.Btn_CmdExecute.Name = "Btn_CmdExecute";
+            this.Btn_CmdExecute.Size = new Size(75, 25);
+            this.Btn_CmdExecute.TabIndex = 2;
+            this.Btn_CmdExecute.Text = "実行";
+            this.Btn_CmdExecute.UseVisualStyleBackColor = true;
+            this.Btn_CmdExecute.Click += this.Btn_CmdExecute_Click;
+            // 
+            // Flp_Cmd
+            // 
+            this.Flp_Cmd.AutoScroll = true;
+            this.Flp_Cmd.Dock = DockStyle.Top;
+            this.Flp_Cmd.FlowDirection = FlowDirection.TopDown;
+            this.Flp_Cmd.Location = new Point(3, 14);
+            this.Flp_Cmd.Margin = new Padding(0);
+            this.Flp_Cmd.Name = "Flp_Cmd";
+            this.Flp_Cmd.Size = new Size(524, 185);
+            this.Flp_Cmd.TabIndex = 4;
+            this.Flp_Cmd.WrapContents = false;
             // 
             // Form1
             // 
@@ -168,8 +351,12 @@
             ((System.ComponentModel.ISupportInitialize)this.splitContainer1).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.Gb_Items.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.Pnl_Cmd.ResumeLayout(false);
-            this.Pnl_Cmd.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
         }
 
@@ -177,11 +364,24 @@
 
         private SplitContainer splitContainer1;
         private GroupBox Pnl_Cmd;
-        private TextBox Tb_Cmd;
         private GroupBox Gb_Items;
-        private Button button1;
+        private Button Btn_Test;
         private FlowLayoutPanel Flp_Items;
         private Button Btn_CmdReplace;
         private Button Btn_CmdExecute;
+        private Button button7;
+        private Button button2;
+        private Button button3;
+        private GroupBox groupBox1;
+        private Button button4;
+        private Button button5;
+        private GroupBox groupBox2;
+        private RichTextBox TbLog;
+        private Button button6;
+        private Panel panel1;
+        private FlowLayoutPanel Flp_Cmd;
+        private Button Btn_CmdAdd;
+        private Button button9;
+        private Button button8;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace CmdQ.Models;
 
@@ -30,27 +31,11 @@ public class QItem(string path, QItemType type): INotifyPropertyChanged
             this.OnPropertyChanged(nameof(this.Status));
         }
     } = QItemStatus.Pending;
-    public string Log
-    {
-        get => field;
-        set
-        {
-            if (field == value) return;
-            field = value;
-            this.OnPropertyChanged(nameof(this.Log));
-        }
-    } = string.Empty;
-    public string Error
-    {
-        get => field;
-        set
-        {
-            if (field == value) return;
-            field = value;
-            this.OnPropertyChanged(nameof(this.Error));
-        }
-    } = string.Empty;
 
+    public ObservableCollection<string> Logs { get; } = [];
+    public ObservableCollection<string> Errors { get; } = [];
+    public string Log => this.Logs.LastOrDefault(string.Empty);
+    public string Error => this.Errors.LastOrDefault(string.Empty);
 
     public string Path { get; } = path;
 

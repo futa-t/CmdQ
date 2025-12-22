@@ -6,11 +6,36 @@ namespace CmdQ;
 public partial class Form1: Form
 {
     private readonly List<QItem> items = [];
+    private readonly List<QCommand> commands = [];
+
+    private TextBox? lastEnter = null;
 
     public Form1()
     {
         this.InitializeComponent();
         this.Flp_Items.AllowDrop = true;
+        this.AddCommandList();
+        this.Flp_Cmd.SizeChanged += this.Flp_Cmd_SizeChanged;
+    }
+
+    private void Flp_Cmd_SizeChanged(object? sender, EventArgs e)
+    {
+        foreach (Control c in this.Flp_Cmd.Controls)
+        {
+            c.Width= this.Flp_Cmd.ClientSize.Width;
+        }
+    }
+
+    private void AddCommandList()
+    {
+        var model = new QCommand($"ƒRƒ}ƒ“ƒh{this.commands.Count + 1}");
+        var view = new QCommandView(model)
+        {
+            Width = this.Flp_Cmd.ClientSize.Width
+        };
+        view.OnEnter += (s, e) => this.lastEnter = e;
+        this.commands.Add(model);
+        this.Flp_Cmd.Controls.Add(view);
     }
 
     private void Gb_Items_DragEnter(object sender, DragEventArgs e)
@@ -66,42 +91,99 @@ public partial class Form1: Form
         }
     }
 
+    private void AddLog(string text, bool error = false)
+    {
+        if (this.InvokeRequired)
+        {
+            this.Invoke(() => this.AddLog(text, error));
+            return;
+        }
+
+        int startIndex = this.TbLog.TextLength;
+
+        this.TbLog.AppendText(text + Environment.NewLine);
+
+        if (error)
+        {
+            this.TbLog.Select(startIndex, text.Length);
+            this.TbLog.SelectionColor = Color.Red;
+
+            this.TbLog.SelectionStart = this.TbLog.TextLength;
+            this.TbLog.SelectionLength = 0;
+            this.TbLog.SelectionColor = this.TbLog.ForeColor;
+        }
+
+        this.TbLog.ScrollToCaret();
+    }
     private void AddItem(QItem item)
     {
         this.items.Add(item);
-        var view = new QItemView(item)
-        {
-        };
-        //this.Flp_Items.SizeChanged += (s, e) =>
-        //{
-        //    view.Width = this.Flp_Items.ClientSize.Width;
-        //};
-        view.OnClick += (s, e) => item.Log = string.Empty;
+        item.Logs.CollectionChanged += (s, e) => this.AddLog(item.Log);
+        item.Errors.CollectionChanged += (s, e) => this.AddLog(item.Error, true);
+        var view = new QItemView(item);
         this.Flp_Items.Controls.Add(view);
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    private void BtnTestClick(object sender, EventArgs e)
     {
         for (var i = 0; i < this.items.Count; i++)
         {
             var item = this.items[i];
-            if (i % 2 == 0)
+            var cmd = string.Empty;
+            foreach (var command in this.commands)
             {
-                item.Log = $"{this.Tb_Cmd.Text} {item.Path}";
+                cmd += string.Join(" ", command.Build(item)) + Environment.NewLine;
             }
-            else
-            {
-                item.Error = $"Error {this.Tb_Cmd.Text} {item.Path}";
-            }
+            item.Logs.Add(cmd.Trim());
         }
     }
 
     private void Btn_CmdReplace_Click(object sender, EventArgs e)
     {
-        var cmd = this.Tb_Cmd.Text;
+        for (var i = 0; i < this.items.Count; i++)
+        {
+            var item = this.items[i];
+            var cmd = string.Empty;
+            item.Logs.Clear();
+            foreach (var command in this.commands)
+            {
+                cmd += string.Join(" ", command.Build(item)) + Environment.NewLine;
+            }
+            item.Logs.Add(cmd.Trim());
+        }
+    }
+
+    private void InsertTemplate(object sender, EventArgs e)
+    {
+        if (sender is Button b && b.Tag is string tag)
+        {
+            var textBox = this.lastEnter;
+
+            if (textBox != null)
+            {
+                int cursorPos = textBox.SelectionStart;
+                textBox.SelectedText = tag;
+                textBox.SelectionStart = cursorPos + tag.Length;
+                textBox.SelectionLength = 0;
+                textBox.Focus();
+            }
+        }
+    }
+
+    private void Btn_CmdAdd_Click(object sender, EventArgs e)
+    {
+        this.AddCommandList();
+    }
+
+    private async void Btn_CmdExecute_Click(object sender, EventArgs e)
+    {
         foreach (var item in this.items)
         {
-            item.Log = cmd.Replace("{input}", item.Path);
+            foreach (var cmd in this.commands)
+            {
+                await cmd.Run(item);
+            }
         }
+
     }
 }

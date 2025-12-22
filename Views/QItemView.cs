@@ -62,7 +62,12 @@ public partial class QItemView: UserControl
 
     private void Item_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        this.UpdateView();
+        if (e.PropertyName == nameof(this.Item.Command))
+        {
+            this.Lb_Log.ForeColor = SystemColors.ControlDarkDark;
+            this.Lb_Log.Text = this.Item.Command;
+            this.Lb_Log.Visible = !string.IsNullOrWhiteSpace(this.Item.Command);
+        }
     }
 
     private void Lb_Item_Click(object? sender, EventArgs e)

@@ -93,6 +93,7 @@ public partial class Form1: Form
 
     private void AddLog(string text, bool error = false)
     {
+        if (string.IsNullOrWhiteSpace(text)) return;
         if (this.InvokeRequired)
         {
             this.Invoke(() => this.AddLog(text, error));
@@ -134,7 +135,7 @@ public partial class Form1: Form
             {
                 cmd += string.Join(" ", command.Build(item)) + Environment.NewLine;
             }
-            item.Logs.Add(cmd.Trim());
+            item.Command = cmd.Trim();
         }
     }
 
@@ -144,12 +145,11 @@ public partial class Form1: Form
         {
             var item = this.items[i];
             var cmd = string.Empty;
-            item.Logs.Clear();
             foreach (var command in this.commands)
             {
                 cmd += string.Join(" ", command.Build(item)) + Environment.NewLine;
             }
-            item.Logs.Add(cmd.Trim());
+            item.Command = cmd.Trim();
         }
     }
 

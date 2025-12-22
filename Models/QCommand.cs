@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.Text;
 
 namespace CmdQ.Models;
 
@@ -26,15 +27,18 @@ public class QCommand(string name): INotifyPropertyChanged
         var stem = Path.GetFileNameWithoutExtension(item.Path);
         var ext = Path.GetExtension(item.Path);
 
-        var cmd = this.Template
-                        .Replace("{path}", item.Path)
-                        .Replace("{parent}", parent)
-                        .Replace("{fullname}", Path.Join(parent, name))
-                        .Replace("{name}", name)
-                        .Replace("{fullstem}", Path.Join(parent, stem))
-                        .Replace("{stem}", stem)
-                        .Replace("{ext}", ext);
-        return [.. cmd.Split()];
+        List<string> cmd = [];
+        foreach (var t in this.Template.Split())
+        {
+            cmd.Add(t.Replace("{path}", item.Path)
+                    .Replace("{parent}", parent)
+                    .Replace("{fullname}", Path.Join(parent, name))
+                    .Replace("{name}", name)
+                    .Replace("{fullstem}", Path.Join(parent, stem))
+                    .Replace("{stem}", stem)
+                    .Replace("{ext}", ext));
+        }
+        return [.. cmd];
     }
 
     public async Task Run(QItem item)
@@ -46,7 +50,9 @@ public class QCommand(string name): INotifyPropertyChanged
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
-            CreateNoWindow = true
+            CreateNoWindow = true,
+            StandardOutputEncoding = Encoding.UTF8,
+            StandardErrorEncoding = Encoding.UTF8
         };
         foreach (var c in cmd.Skip(1))
         {
@@ -54,6 +60,8 @@ public class QCommand(string name): INotifyPropertyChanged
         }
 
         using var process = new Process { StartInfo = info };
+
+        item.Logs.Add(string.Join(" ", cmd));
         process.OutputDataReceived += (sender, e) =>
         {
             if (!string.IsNullOrEmpty(e.Data))

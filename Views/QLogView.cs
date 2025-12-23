@@ -1,32 +1,25 @@
-﻿using System.Collections.Specialized;
-
-using CmdQ.Models;
+﻿using CmdQ.Models;
 
 namespace CmdQ.Views;
 
-public partial class QLogView: Form
+public partial class QLogView: UserControl
 {
-    private readonly QItem model;
-    private readonly NotifyCollectionChangedEventHandler handler;
-    public QLogView(QItem model)
+    public QLogView()
     {
-        this.model = model;
         this.InitializeComponent();
-        this.Text = model.Path;
+    }
 
-        this.handler = (s, e) =>
+    public void Insert(string log) => this.Insert(new QItemLog(log));
+    public void InsertError(string log) => this.Insert(new QItemLog(log, QItemLogType.StdErr));
+
+    public void Insert(IEnumerable<QItemLog> logs)
+    {
+        foreach (var log in logs)
         {
-            this.AddLog(this.model.Log);
-        };
-
-        this.model.Logs.CollectionChanged += this.handler;
-
-        foreach (var log in this.model.Logs)
-        {
-            this.AddLog(log);
+            this.Insert(log);
         }
     }
-    private void AddLog(QItemLog? log)
+    public void Insert(QItemLog? log)
     {
         if (this.IsDisposed) return;
 
@@ -35,7 +28,7 @@ public partial class QLogView: Form
         if (string.IsNullOrWhiteSpace(text)) return;
         if (this.InvokeRequired)
         {
-            this.BeginInvoke(() => this.AddLog(log));
+            this.BeginInvoke(() => this.Insert(log));
             return;
         }
 
@@ -56,9 +49,8 @@ public partial class QLogView: Form
         this.TbLog.ScrollToCaret();
     }
 
-    protected override void OnFormClosed(FormClosedEventArgs e)
+    private void TmiClear_Click(object sender, EventArgs e)
     {
-        this.model.Logs.CollectionChanged -= this.handler;
-        base.OnFormClosed(e);
+        this.TbLog.Clear();
     }
 }

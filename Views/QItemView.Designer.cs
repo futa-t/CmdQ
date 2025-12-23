@@ -31,13 +31,15 @@ partial class QItemView
         this.components = new System.ComponentModel.Container();
         this.Pb_FileType = new PictureBox();
         this.Lb_Item = new Label();
+        this.contextMenuStrip1 = new ContextMenuStrip(this.components);
+        this.実行ToolStripMenuItem = new ToolStripMenuItem();
+        this.ログを表示ToolStripMenuItem = new ToolStripMenuItem();
+        this.削除ToolStripMenuItem = new ToolStripMenuItem();
         this.Pb_Status = new PictureBox();
         this.Lb_Log = new Label();
-        this.contextMenuStrip1 = new ContextMenuStrip(this.components);
-        this.ログを表示ToolStripMenuItem = new ToolStripMenuItem();
         ((System.ComponentModel.ISupportInitialize)this.Pb_FileType).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)this.Pb_Status).BeginInit();
         this.contextMenuStrip1.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)this.Pb_Status).BeginInit();
         this.SuspendLayout();
         // 
         // Pb_FileType
@@ -64,6 +66,34 @@ partial class QItemView
         this.Lb_Item.TabIndex = 1;
         this.Lb_Item.Text = "item";
         this.Lb_Item.TextAlign = ContentAlignment.MiddleLeft;
+        // 
+        // contextMenuStrip1
+        // 
+        this.contextMenuStrip1.Items.AddRange(new ToolStripItem[] { this.実行ToolStripMenuItem, this.ログを表示ToolStripMenuItem, this.削除ToolStripMenuItem });
+        this.contextMenuStrip1.Name = "contextMenuStrip1";
+        this.contextMenuStrip1.ShowImageMargin = false;
+        this.contextMenuStrip1.ShowItemToolTips = false;
+        this.contextMenuStrip1.Size = new Size(156, 92);
+        // 
+        // 実行ToolStripMenuItem
+        // 
+        this.実行ToolStripMenuItem.Name = "実行ToolStripMenuItem";
+        this.実行ToolStripMenuItem.Size = new Size(155, 22);
+        this.実行ToolStripMenuItem.Text = "実行";
+        // 
+        // ログを表示ToolStripMenuItem
+        // 
+        this.ログを表示ToolStripMenuItem.Name = "ログを表示ToolStripMenuItem";
+        this.ログを表示ToolStripMenuItem.Size = new Size(155, 22);
+        this.ログを表示ToolStripMenuItem.Text = "ログを表示";
+        this.ログを表示ToolStripMenuItem.Click += this.OpenLogView;
+        // 
+        // 削除ToolStripMenuItem
+        // 
+        this.削除ToolStripMenuItem.Name = "削除ToolStripMenuItem";
+        this.削除ToolStripMenuItem.Size = new Size(155, 22);
+        this.削除ToolStripMenuItem.Text = "削除";
+        this.削除ToolStripMenuItem.Click += this.MenuDeleteClick;
         // 
         // Pb_Status
         // 
@@ -92,19 +122,6 @@ partial class QItemView
         this.Lb_Log.TextAlign = ContentAlignment.MiddleLeft;
         this.Lb_Log.Visible = false;
         // 
-        // contextMenuStrip1
-        // 
-        this.contextMenuStrip1.Items.AddRange(new ToolStripItem[] { this.ログを表示ToolStripMenuItem });
-        this.contextMenuStrip1.Name = "contextMenuStrip1";
-        this.contextMenuStrip1.Size = new Size(181, 48);
-        // 
-        // ログを表示ToolStripMenuItem
-        // 
-        this.ログを表示ToolStripMenuItem.Name = "ログを表示ToolStripMenuItem";
-        this.ログを表示ToolStripMenuItem.Size = new Size(180, 22);
-        this.ログを表示ToolStripMenuItem.Text = "ログを表示";
-        this.ログを表示ToolStripMenuItem.Click += this.OpenLogView;
-        // 
         // QItemView
         // 
         this.AutoScaleDimensions = new SizeF(7F, 15F);
@@ -120,8 +137,8 @@ partial class QItemView
         this.Name = "QItemView";
         this.Size = new Size(85, 39);
         ((System.ComponentModel.ISupportInitialize)this.Pb_FileType).EndInit();
-        ((System.ComponentModel.ISupportInitialize)this.Pb_Status).EndInit();
         this.contextMenuStrip1.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)this.Pb_Status).EndInit();
         this.ResumeLayout(false);
         this.PerformLayout();
     }
@@ -134,4 +151,6 @@ partial class QItemView
     private Label Lb_Log;
     private ContextMenuStrip contextMenuStrip1;
     private ToolStripMenuItem ログを表示ToolStripMenuItem;
+    private ToolStripMenuItem 実行ToolStripMenuItem;
+    private ToolStripMenuItem 削除ToolStripMenuItem;
 }

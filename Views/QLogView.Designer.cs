@@ -2,15 +2,15 @@
 
 partial class QLogView
 {
-    /// <summary>
-    /// Required designer variable.
+    /// <summary> 
+    /// 必要なデザイナー変数です。
     /// </summary>
     private System.ComponentModel.IContainer components = null;
 
-    /// <summary>
-    /// Clean up any resources being used.
+    /// <summary> 
+    /// 使用中のリソースをすべてクリーンアップします。
     /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    /// <param name="disposing">マネージド リソースを破棄する場合は true を指定し、その他の場合は false を指定します。</param>
     protected override void Dispose(bool disposing)
     {
         if (disposing && (components != null))
@@ -20,49 +20,64 @@ partial class QLogView
         base.Dispose(disposing);
     }
 
-    #region Windows Form Designer generated code
+    #region コンポーネント デザイナーで生成されたコード
 
-    /// <summary>
-    /// Required method for Designer support - do not modify
-    /// the contents of this method with the code editor.
+    /// <summary> 
+    /// デザイナー サポートに必要なメソッドです。このメソッドの内容を 
+    /// コード エディターで変更しないでください。
     /// </summary>
     private void InitializeComponent()
     {
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QLogView));
+        this.components = new System.ComponentModel.Container();
         this.TbLog = new RichTextBox();
+        this.contextMenuStrip1 = new ContextMenuStrip(this.components);
+        this.TmiClear = new ToolStripMenuItem();
+        this.contextMenuStrip1.SuspendLayout();
         this.SuspendLayout();
         // 
         // TbLog
         // 
-        this.TbLog.BackColor = SystemColors.ControlLightLight;
+        this.TbLog.BackColor = SystemColors.Control;
         this.TbLog.BorderStyle = BorderStyle.None;
+        this.TbLog.ContextMenuStrip = this.contextMenuStrip1;
         this.TbLog.Dock = DockStyle.Fill;
-        this.TbLog.Font = new Font("BIZ UDPゴシック", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        this.TbLog.Location = new Point(8, 8);
-        this.TbLog.Margin = new Padding(3, 2, 3, 2);
+        this.TbLog.Font = new Font("BIZ UDPゴシック", 9F, FontStyle.Regular, GraphicsUnit.Point, 128);
+        this.TbLog.Location = new Point(0, 0);
         this.TbLog.Name = "TbLog";
         this.TbLog.ReadOnly = true;
-        this.TbLog.Size = new Size(688, 425);
+        this.TbLog.Size = new Size(150, 150);
         this.TbLog.TabIndex = 0;
         this.TbLog.Text = "";
         // 
+        // contextMenuStrip1
+        // 
+        this.contextMenuStrip1.AllowMerge = false;
+        this.contextMenuStrip1.Font = new Font("BIZ UDPゴシック", 9F, FontStyle.Regular, GraphicsUnit.Point, 128);
+        this.contextMenuStrip1.Items.AddRange(new ToolStripItem[] { this.TmiClear });
+        this.contextMenuStrip1.Name = "contextMenuStrip1";
+        this.contextMenuStrip1.ShowImageMargin = false;
+        this.contextMenuStrip1.Size = new Size(156, 48);
+        // 
+        // TmiClear
+        // 
+        this.TmiClear.Name = "TmiClear";
+        this.TmiClear.Size = new Size(155, 22);
+        this.TmiClear.Text = "クリア";
+        this.TmiClear.Click += this.TmiClear_Click;
+        // 
         // QLogView
         // 
-        this.AutoScaleMode = AutoScaleMode.None;
-        this.AutoScroll = true;
-        this.BackColor = SystemColors.ControlLightLight;
-        this.ClientSize = new Size(704, 441);
+        this.AutoScaleDimensions = new SizeF(7F, 15F);
+        this.AutoScaleMode = AutoScaleMode.Font;
         this.Controls.Add(this.TbLog);
-        this.Font = new Font("BIZ UDPゴシック", 9F, FontStyle.Regular, GraphicsUnit.Point, 128);
-        this.Icon = (Icon)resources.GetObject("$this.Icon");
-        this.Margin = new Padding(3, 2, 3, 2);
         this.Name = "QLogView";
-        this.Padding = new Padding(8);
-        this.Text = "QLogView";
+        this.contextMenuStrip1.ResumeLayout(false);
         this.ResumeLayout(false);
     }
 
     #endregion
 
     private RichTextBox TbLog;
+    private ContextMenuStrip contextMenuStrip1;
+    private ToolStripMenuItem TmiClear;
 }

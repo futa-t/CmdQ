@@ -93,46 +93,44 @@ public partial class Form1: Form
         }
     }
 
-    private void AddLog(QItemLog? log)
-    {
-        var text = log?.Text;
-        var error = log?.Type == QItemLogType.StdErr;
-        if (string.IsNullOrWhiteSpace(text)) return;
-        if (this.InvokeRequired)
-        {
-            this.BeginInvoke(() => this.AddLog(log));
-            return;
-        }
 
-        int startIndex = this.TbLog.TextLength;
-
-        this.TbLog.AppendText(text + Environment.NewLine);
-
-        if (error)
-        {
-            this.TbLog.Select(startIndex, text.Length);
-            this.TbLog.SelectionColor = Color.Red;
-
-            this.TbLog.SelectionStart = this.TbLog.TextLength;
-            this.TbLog.SelectionLength = 0;
-            this.TbLog.SelectionColor = this.TbLog.ForeColor;
-        }
-
-        this.TbLog.ScrollToCaret();
-    }
     private void AddItem(QItem item)
     {
         this.items.Add(item);
-        item.Logs.CollectionChanged += (s, e) => this.AddLog(item.Log);
+        item.Logs.CollectionChanged += (s, e) => this.Qlv.Insert(item.Log);
         this.UpdateQueueView();
     }
+
 
     private void UpdateQueueView()
     {
         this.Flp_Items.Controls.Clear();
-        var views = this.items.Select(i => new QItemView(i)).ToArray();
+        var views = this.items.Select(i =>
+        {
+            var view = new QItemView(i);
+            view.OnDelete += this.View_OnDelete;
+            return view;
+        }).ToArray();
         this.Flp_Items.Controls.AddRange(views);
     }
+
+    private void View_OnDelete(object? sender, QItemEventArgs e)
+    {
+        if (sender is QItemView view)
+        {
+            if (this.items.Remove(e.Item))
+            {
+                this.Flp_Items.Controls.Remove(view);
+                this.Qlv.Insert($"削除しました: {e.Item.Path}");
+                view.Dispose();
+            }
+            else
+            {
+                this.Qlv.InsertError($"削除に失敗しました: {e.Item.Path}");
+            }
+        }
+    }
+
     private void BtnTestClick(object sender, EventArgs e)
     {
         var cmd = this.commands[0].Build(this.items[0]);
@@ -242,6 +240,7 @@ public partial class Form1: Form
     {
         this.items.Clear();
         this.UpdateQueueView();
+        this.Qlv.Insert("キューをクリアしました");
     }
 
     private async void BtnCmdParallel_Click(object sender, EventArgs e)
@@ -251,10 +250,13 @@ public partial class Form1: Form
 
     private void BtnQSClear_Click(object sender, EventArgs e)
     {
-        var newItems = this.items.Where(i => i.Status != QItemStatus.Success).ToList();
-        this.items.Clear();
-        this.items.AddRange(newItems);
+        var deleted = this.items.RemoveAll(i => i.Status == QItemStatus.Success);
+        if (deleted == 0)
+        {
+            this.Qlv.Insert($"完了済みのキューが存在しません");
+            return;
+        }
         this.UpdateQueueView();
-
+        this.Qlv.Insert($"{deleted}件の完了済みキューをクリアしました");
     }
 }

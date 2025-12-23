@@ -5,7 +5,9 @@ namespace CmdQ.Views;
 public partial class QItemView: UserControl
 {
     private QItem Item { get; }
-    public event EventHandler<QItem>? OnClick;
+
+    public event EventHandler<QItemEventArgs>? ClickEvent;
+    public event EventHandler<QItemEventArgs>? OnDelete;
     public QItemView(QItem item)
     {
         this.InitializeComponent();
@@ -80,10 +82,10 @@ public partial class QItemView: UserControl
 
     private void Lb_Item_Click(object? sender, EventArgs e)
     {
-        this.OnClick?.Invoke(sender, this.Item);
+        this.ClickEvent?.Invoke(sender, new(this.Item));
     }
 
-    private QLogView? logWindow;
+    private QLogWindow? logWindow;
     private async void OpenLogView(object sender, EventArgs e)
     {
         if (this.logWindow is not null) return;
@@ -92,4 +94,14 @@ public partial class QItemView: UserControl
         await this.logWindow.ShowAsync();
 
     }
+
+    private void MenuDeleteClick(object sender, EventArgs e)
+    {
+        this.OnDelete?.Invoke(this, new(this.Item));
+    }
+
+}
+public class QItemEventArgs(QItem item): EventArgs
+{
+    public QItem Item { get; } = item;
 }

@@ -36,13 +36,12 @@
             this.Gb_Items = new GroupBox();
             this.Flp_Items = new FlowLayoutPanel();
             this.groupBox2 = new GroupBox();
-            this.TbLog = new RichTextBox();
+            this.Qlv = new CmdQ.Views.QLogView();
             this.groupBox1 = new GroupBox();
             this.button9 = new Button();
             this.button2 = new Button();
             this.button4 = new Button();
             this.button6 = new Button();
-            this.button7 = new Button();
             this.button5 = new Button();
             this.button8 = new Button();
             this.button3 = new Button();
@@ -109,9 +108,9 @@
             // 
             this.BtnQSClear.Location = new Point(87, 19);
             this.BtnQSClear.Name = "BtnQSClear";
-            this.BtnQSClear.Size = new Size(87, 23);
+            this.BtnQSClear.Size = new Size(112, 23);
             this.BtnQSClear.TabIndex = 0;
-            this.BtnQSClear.Text = "成功をクリア";
+            this.BtnQSClear.Text = "完了済みをクリア";
             this.BtnQSClear.UseVisualStyleBackColor = true;
             this.BtnQSClear.Click += this.BtnQSClear_Click;
             // 
@@ -153,28 +152,23 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.TbLog);
+            this.groupBox2.Controls.Add(this.Qlv);
             this.groupBox2.Dock = DockStyle.Fill;
-            this.groupBox2.Location = new Point(2, 346);
+            this.groupBox2.Location = new Point(2, 332);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new Padding(8, 4, 8, 4);
-            this.groupBox2.Size = new Size(530, 327);
+            this.groupBox2.Size = new Size(530, 341);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ログ";
             // 
-            // TbLog
+            // Qlv
             // 
-            this.TbLog.BackColor = SystemColors.Control;
-            this.TbLog.BorderStyle = BorderStyle.None;
-            this.TbLog.Dock = DockStyle.Fill;
-            this.TbLog.Location = new Point(8, 16);
-            this.TbLog.Name = "TbLog";
-            this.TbLog.ReadOnly = true;
-            this.TbLog.ScrollBars = RichTextBoxScrollBars.Vertical;
-            this.TbLog.Size = new Size(514, 307);
-            this.TbLog.TabIndex = 0;
-            this.TbLog.Text = "";
+            this.Qlv.Dock = DockStyle.Fill;
+            this.Qlv.Location = new Point(8, 16);
+            this.Qlv.Name = "Qlv";
+            this.Qlv.Size = new Size(514, 321);
+            this.Qlv.TabIndex = 0;
             // 
             // groupBox1
             // 
@@ -182,14 +176,13 @@
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button6);
-            this.groupBox1.Controls.Add(this.button7);
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.button8);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Dock = DockStyle.Top;
             this.groupBox1.Location = new Point(2, 246);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new Size(530, 100);
+            this.groupBox1.Size = new Size(530, 86);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "テンプレート";
@@ -197,12 +190,12 @@
             // button9
             // 
             this.button9.AutoSize = true;
-            this.button9.Location = new Point(233, 49);
+            this.button9.Location = new Point(266, 49);
             this.button9.Name = "button9";
             this.button9.Size = new Size(175, 25);
             this.button9.TabIndex = 5;
             this.button9.Tag = "{stem}";
-            this.button9.Text = "ファイル名のみ(拡張子なし)";
+            this.button9.Text = "ファイル名(拡張子なし)";
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += this.InsertTemplate;
             // 
@@ -211,10 +204,10 @@
             this.button2.AutoSize = true;
             this.button2.Location = new Point(88, 49);
             this.button2.Name = "button2";
-            this.button2.Size = new Size(139, 25);
+            this.button2.Size = new Size(172, 25);
             this.button2.TabIndex = 5;
             this.button2.Tag = "{fullstem}";
-            this.button2.Text = "ファイル名(拡張子なし)";
+            this.button2.Text = "パス+ファイル名(拡張子なし)";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += this.InsertTemplate;
             // 
@@ -242,22 +235,10 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += this.InsertTemplate;
             // 
-            // button7
-            // 
-            this.button7.AutoSize = true;
-            this.button7.Location = new Point(414, 49);
-            this.button7.Name = "button7";
-            this.button7.Size = new Size(104, 25);
-            this.button7.TabIndex = 4;
-            this.button7.Tag = "{output}";
-            this.button7.Text = "出力テンプレート";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += this.InsertTemplate;
-            // 
             // button5
             // 
             this.button5.AutoSize = true;
-            this.button5.Location = new Point(268, 18);
+            this.button5.Location = new Point(295, 18);
             this.button5.Name = "button5";
             this.button5.Size = new Size(75, 25);
             this.button5.TabIndex = 4;
@@ -269,12 +250,12 @@
             // button8
             // 
             this.button8.AutoSize = true;
-            this.button8.Location = new Point(169, 18);
+            this.button8.Location = new Point(196, 18);
             this.button8.Name = "button8";
             this.button8.Size = new Size(93, 25);
             this.button8.TabIndex = 4;
             this.button8.Tag = "{name}";
-            this.button8.Text = "ファイル名のみ";
+            this.button8.Text = "ファイル名";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += this.InsertTemplate;
             // 
@@ -283,10 +264,10 @@
             this.button3.AutoSize = true;
             this.button3.Location = new Point(88, 18);
             this.button3.Name = "button3";
-            this.button3.Size = new Size(75, 25);
+            this.button3.Size = new Size(102, 25);
             this.button3.TabIndex = 4;
             this.button3.Tag = "{fullname}";
-            this.button3.Text = "ファイル名";
+            this.button3.Text = "パス+ファイル名";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += this.InsertTemplate;
             // 
@@ -421,14 +402,12 @@
         private FlowLayoutPanel Flp_Items;
         private Button Btn_CmdReplace;
         private Button Btn_CmdExecute;
-        private Button button7;
         private Button button2;
         private Button button3;
         private GroupBox groupBox1;
         private Button button4;
         private Button button5;
         private GroupBox groupBox2;
-        private RichTextBox TbLog;
         private Button button6;
         private Panel panel1;
         private FlowLayoutPanel Flp_Cmd;
@@ -439,5 +418,6 @@
         private Button BtnQClear;
         private Button BtnQSClear;
         private Button Btn_CmdParallel;
+        private Views.QLogView Qlv;
     }
 }

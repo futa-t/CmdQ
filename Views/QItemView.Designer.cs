@@ -28,12 +28,16 @@ partial class QItemView
     /// </summary>
     private void InitializeComponent()
     {
+        this.components = new System.ComponentModel.Container();
         this.Pb_FileType = new PictureBox();
         this.Lb_Item = new Label();
         this.Pb_Status = new PictureBox();
         this.Lb_Log = new Label();
+        this.contextMenuStrip1 = new ContextMenuStrip(this.components);
+        this.ログを表示ToolStripMenuItem = new ToolStripMenuItem();
         ((System.ComponentModel.ISupportInitialize)this.Pb_FileType).BeginInit();
         ((System.ComponentModel.ISupportInitialize)this.Pb_Status).BeginInit();
+        this.contextMenuStrip1.SuspendLayout();
         this.SuspendLayout();
         // 
         // Pb_FileType
@@ -50,6 +54,7 @@ partial class QItemView
         // 
         this.Lb_Item.AutoSize = true;
         this.Lb_Item.BackColor = SystemColors.Control;
+        this.Lb_Item.ContextMenuStrip = this.contextMenuStrip1;
         this.Lb_Item.Font = new Font("Yu Gothic UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 128);
         this.Lb_Item.ForeColor = Color.FromArgb(51, 51, 51);
         this.Lb_Item.Location = new Point(46, 2);
@@ -74,6 +79,7 @@ partial class QItemView
         // 
         this.Lb_Log.AutoSize = true;
         this.Lb_Log.BackColor = SystemColors.Control;
+        this.Lb_Log.ContextMenuStrip = this.contextMenuStrip1;
         this.Lb_Log.Font = new Font("Yu Gothic UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 128);
         this.Lb_Log.ForeColor = SystemColors.ControlDarkDark;
         this.Lb_Log.Location = new Point(46, 24);
@@ -85,6 +91,19 @@ partial class QItemView
         this.Lb_Log.Text = "Log";
         this.Lb_Log.TextAlign = ContentAlignment.MiddleLeft;
         this.Lb_Log.Visible = false;
+        // 
+        // contextMenuStrip1
+        // 
+        this.contextMenuStrip1.Items.AddRange(new ToolStripItem[] { this.ログを表示ToolStripMenuItem });
+        this.contextMenuStrip1.Name = "contextMenuStrip1";
+        this.contextMenuStrip1.Size = new Size(181, 48);
+        // 
+        // ログを表示ToolStripMenuItem
+        // 
+        this.ログを表示ToolStripMenuItem.Name = "ログを表示ToolStripMenuItem";
+        this.ログを表示ToolStripMenuItem.Size = new Size(180, 22);
+        this.ログを表示ToolStripMenuItem.Text = "ログを表示";
+        this.ログを表示ToolStripMenuItem.Click += this.OpenLogView;
         // 
         // QItemView
         // 
@@ -102,6 +121,7 @@ partial class QItemView
         this.Size = new Size(85, 39);
         ((System.ComponentModel.ISupportInitialize)this.Pb_FileType).EndInit();
         ((System.ComponentModel.ISupportInitialize)this.Pb_Status).EndInit();
+        this.contextMenuStrip1.ResumeLayout(false);
         this.ResumeLayout(false);
         this.PerformLayout();
     }
@@ -112,4 +132,6 @@ partial class QItemView
     private Label Lb_Item;
     private PictureBox Pb_Status;
     private Label Lb_Log;
+    private ContextMenuStrip contextMenuStrip1;
+    private ToolStripMenuItem ログを表示ToolStripMenuItem;
 }

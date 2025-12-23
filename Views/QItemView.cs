@@ -83,4 +83,13 @@ public partial class QItemView: UserControl
         this.OnClick?.Invoke(sender, this.Item);
     }
 
+    private QLogView? logWindow;
+    private async void OpenLogView(object sender, EventArgs e)
+    {
+        if (this.logWindow is not null) return;
+        this.logWindow = new(this.Item);
+        this.logWindow.FormClosed += (s, e) => this.logWindow = null;
+        await this.logWindow.ShowAsync();
+
+    }
 }

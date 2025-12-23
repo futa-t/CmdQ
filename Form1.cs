@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 using CmdQ.Models;
 using CmdQ.Views;
 
@@ -33,7 +35,7 @@ public partial class Form1: Form
         {
             Width = this.Flp_Cmd.ClientSize.Width
         };
-        view.OnEnter += (s, e) => this.lastEnter = e;
+        view.OnFocus += (s, e) => this.lastEnter = e;
         this.commands.Add(model);
         this.Flp_Cmd.Controls.Add(view);
     }
@@ -91,12 +93,14 @@ public partial class Form1: Form
         }
     }
 
-    private void AddLog(string text, bool error = false)
+    private void AddLog(QItemLog? log)
     {
+        var text = log?.Text;
+        var error = log?.Type == QItemLogType.StdErr;
         if (string.IsNullOrWhiteSpace(text)) return;
         if (this.InvokeRequired)
         {
-            this.Invoke(() => this.AddLog(text, error));
+            this.BeginInvoke(() => this.AddLog(log));
             return;
         }
 
@@ -120,26 +124,22 @@ public partial class Form1: Form
     {
         this.items.Add(item);
         item.Logs.CollectionChanged += (s, e) => this.AddLog(item.Log);
-        item.Errors.CollectionChanged += (s, e) => this.AddLog(item.Error, true);
-        var view = new QItemView(item);
-        this.Flp_Items.Controls.Add(view);
+        this.UpdateQueueView();
     }
 
+    private void UpdateQueueView()
+    {
+        this.Flp_Items.Controls.Clear();
+        var views = this.items.Select(i => new QItemView(i)).ToArray();
+        this.Flp_Items.Controls.AddRange(views);
+    }
     private void BtnTestClick(object sender, EventArgs e)
     {
-        for (var i = 0; i < this.items.Count; i++)
-        {
-            var item = this.items[i];
-            var cmd = string.Empty;
-            foreach (var command in this.commands)
-            {
-                cmd += string.Join(" ", command.Build(item)) + Environment.NewLine;
-            }
-            item.Command = cmd.Trim();
-        }
+        var cmd = this.commands[0].Build(this.items[0]);
+        Debug.WriteLine(string.Join(Environment.NewLine, cmd));
     }
 
-    private void Btn_CmdReplace_Click(object sender, EventArgs e)
+    private void BtnCmdReplaceClick(object sender, EventArgs e)
     {
         for (var i = 0; i < this.items.Count; i++)
         {
@@ -170,20 +170,91 @@ public partial class Form1: Form
         }
     }
 
-    private void Btn_CmdAdd_Click(object sender, EventArgs e)
+    private void BtnCmdAddClick(object sender, EventArgs e)
     {
         this.AddCommandList();
     }
 
-    private async void Btn_CmdExecute_Click(object sender, EventArgs e)
+    private async void BtnCmdExecuteClick(object sender, EventArgs e)
     {
-        foreach (var item in this.items)
+        await this.CmdExecute();
+    }
+
+    private void SetExecuteStatus(bool state)
+    {
+        this.Btn_CmdExecute.Enabled = state;
+        this.Btn_CmdParallel.Enabled = state;
+    }
+
+
+    private readonly AsyncLock LockRunning = new();
+
+    private async Task CmdExecute()
+    {
+        using (await this.LockRunning.LockAsync())
         {
-            foreach (var cmd in this.commands)
+            try
             {
-                await cmd.Run(item);
+                this.SetExecuteStatus(false);
+                foreach (var item in this.items)
+                {
+                    foreach (var cmd in this.commands)
+                    {
+                        await cmd.Run(item);
+                    }
+                }
+            }
+            finally
+            {
+                this.SetExecuteStatus(true);
             }
         }
+    }
+
+    private async Task CmdExecuteParallel()
+    {
+        using (await this.LockRunning.LockAsync())
+        {
+            try
+            {
+                this.SetExecuteStatus(false);
+                var options = new ParallelOptions
+                {
+                    MaxDegreeOfParallelism = 2
+                };
+
+                await Parallel.ForEachAsync(this.items, options, async (item, ct) =>
+                {
+                    foreach (var cmd in this.commands)
+                    {
+                        await cmd.Run(item);
+                    }
+                });
+            }
+            finally
+            {
+                this.SetExecuteStatus(true);
+            }
+        }
+    }
+
+    private void BtnQClear_Click(object sender, EventArgs e)
+    {
+        this.items.Clear();
+        this.UpdateQueueView();
+    }
+
+    private async void BtnCmdParallel_Click(object sender, EventArgs e)
+    {
+        await this.CmdExecuteParallel();
+    }
+
+    private void BtnQSClear_Click(object sender, EventArgs e)
+    {
+        var newItems = this.items.Where(i => i.Status != QItemStatus.Success).ToList();
+        this.items.Clear();
+        this.items.AddRange(newItems);
+        this.UpdateQueueView();
 
     }
 }

@@ -61,12 +61,12 @@ public class QCommand(string name): INotifyPropertyChanged
 
         using var process = new Process { StartInfo = info };
 
-        item.Logs.Add(string.Join(" ", cmd));
+        item.AddLog(string.Join(" ", cmd));
         process.OutputDataReceived += (sender, e) =>
         {
             if (!string.IsNullOrEmpty(e.Data))
             {
-                item.Logs.Add(e.Data);
+                item.AddLog(e.Data);
             }
         };
 
@@ -74,17 +74,25 @@ public class QCommand(string name): INotifyPropertyChanged
         {
             if (!string.IsNullOrEmpty(e.Data))
             {
-                item.Errors.Add(e.Data);
+                item.AddLog(e.Data, QItemLogType.StdErr);
             }
         };
 
         item.Status = QItemStatus.Processing;
-        process.Start();
+        try
+        {
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
 
-        process.BeginOutputReadLine();
-        process.BeginErrorReadLine();
+            await process.WaitForExitAsync();
+            item.Status = process.ExitCode == 0 ? QItemStatus.Success : QItemStatus.Failed;
+        }
+        catch (Exception e)
+        {
+            item.AddLog(e.ToString(), QItemLogType.StdErr);
+            item.Status = QItemStatus.Failed;
+        }
 
-        await process.WaitForExitAsync();
-        item.Status = process.ExitCode == 0 ? QItemStatus.Success : QItemStatus.Failed;
     }
 }

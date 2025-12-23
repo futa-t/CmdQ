@@ -30,6 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.splitContainer1 = new SplitContainer();
+            this.groupBox3 = new GroupBox();
+            this.BtnQSClear = new Button();
+            this.BtnQClear = new Button();
             this.Gb_Items = new GroupBox();
             this.Flp_Items = new FlowLayoutPanel();
             this.groupBox2 = new GroupBox();
@@ -48,12 +51,14 @@
             this.Btn_CmdAdd = new Button();
             this.Btn_Test = new Button();
             this.Btn_CmdReplace = new Button();
+            this.Btn_CmdParallel = new Button();
             this.Btn_CmdExecute = new Button();
             this.Flp_Cmd = new FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)this.splitContainer1).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.Gb_Items.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -71,6 +76,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox3);
             this.splitContainer1.Panel1.Controls.Add(this.Gb_Items);
             this.splitContainer1.Panel1.Padding = new Padding(2, 4, 2, 4);
             // 
@@ -86,15 +92,48 @@
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.TabStop = false;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            this.groupBox3.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            this.groupBox3.Controls.Add(this.BtnQSClear);
+            this.groupBox3.Controls.Add(this.BtnQClear);
+            this.groupBox3.Location = new Point(0, 621);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new Size(718, 53);
+            this.groupBox3.TabIndex = 1;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "キュー操作";
+            // 
+            // BtnQSClear
+            // 
+            this.BtnQSClear.Location = new Point(87, 19);
+            this.BtnQSClear.Name = "BtnQSClear";
+            this.BtnQSClear.Size = new Size(87, 23);
+            this.BtnQSClear.TabIndex = 0;
+            this.BtnQSClear.Text = "成功をクリア";
+            this.BtnQSClear.UseVisualStyleBackColor = true;
+            this.BtnQSClear.Click += this.BtnQSClear_Click;
+            // 
+            // BtnQClear
+            // 
+            this.BtnQClear.Location = new Point(6, 19);
+            this.BtnQClear.Name = "BtnQClear";
+            this.BtnQClear.Size = new Size(75, 23);
+            this.BtnQClear.TabIndex = 0;
+            this.BtnQClear.Text = "全クリア";
+            this.BtnQClear.UseVisualStyleBackColor = true;
+            this.BtnQClear.Click += this.BtnQClear_Click;
+            // 
             // Gb_Items
             // 
+            this.Gb_Items.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             this.Gb_Items.Controls.Add(this.Flp_Items);
-            this.Gb_Items.Dock = DockStyle.Fill;
             this.Gb_Items.Location = new Point(2, 4);
             this.Gb_Items.Margin = new Padding(3, 2, 3, 2);
             this.Gb_Items.Name = "Gb_Items";
             this.Gb_Items.Padding = new Padding(3, 2, 3, 2);
-            this.Gb_Items.Size = new Size(716, 669);
+            this.Gb_Items.Size = new Size(716, 618);
             this.Gb_Items.TabIndex = 0;
             this.Gb_Items.TabStop = false;
             this.Gb_Items.Text = "キュー";
@@ -106,7 +145,7 @@
             this.Flp_Items.FlowDirection = FlowDirection.TopDown;
             this.Flp_Items.Location = new Point(3, 14);
             this.Flp_Items.Name = "Flp_Items";
-            this.Flp_Items.Size = new Size(710, 653);
+            this.Flp_Items.Size = new Size(710, 602);
             this.Flp_Items.TabIndex = 0;
             this.Flp_Items.WrapContents = false;
             this.Flp_Items.DragDrop += this.Gb_Items_DragDrop;
@@ -270,6 +309,7 @@
             this.panel1.Controls.Add(this.Btn_CmdAdd);
             this.panel1.Controls.Add(this.Btn_Test);
             this.panel1.Controls.Add(this.Btn_CmdReplace);
+            this.panel1.Controls.Add(this.Btn_CmdParallel);
             this.panel1.Controls.Add(this.Btn_CmdExecute);
             this.panel1.Dock = DockStyle.Bottom;
             this.panel1.Location = new Point(3, 202);
@@ -286,12 +326,12 @@
             this.Btn_CmdAdd.TabIndex = 1;
             this.Btn_CmdAdd.Text = "追加";
             this.Btn_CmdAdd.UseVisualStyleBackColor = true;
-            this.Btn_CmdAdd.Click += this.Btn_CmdAdd_Click;
+            this.Btn_CmdAdd.Click += this.BtnCmdAddClick;
             // 
             // Btn_Test
             // 
             this.Btn_Test.AutoSize = true;
-            this.Btn_Test.Location = new Point(130, 6);
+            this.Btn_Test.Location = new Point(85, 6);
             this.Btn_Test.Name = "Btn_Test";
             this.Btn_Test.Size = new Size(75, 25);
             this.Btn_Test.TabIndex = 1;
@@ -302,13 +342,24 @@
             // Btn_CmdReplace
             // 
             this.Btn_CmdReplace.AutoSize = true;
-            this.Btn_CmdReplace.Location = new Point(354, 6);
+            this.Btn_CmdReplace.Location = new Point(166, 6);
             this.Btn_CmdReplace.Name = "Btn_CmdReplace";
             this.Btn_CmdReplace.Size = new Size(82, 25);
             this.Btn_CmdReplace.TabIndex = 3;
             this.Btn_CmdReplace.Text = "コマンド確認";
             this.Btn_CmdReplace.UseVisualStyleBackColor = true;
-            this.Btn_CmdReplace.Click += this.Btn_CmdReplace_Click;
+            this.Btn_CmdReplace.Click += this.BtnCmdReplaceClick;
+            // 
+            // Btn_CmdParallel
+            // 
+            this.Btn_CmdParallel.AutoSize = true;
+            this.Btn_CmdParallel.Location = new Point(361, 6);
+            this.Btn_CmdParallel.Name = "Btn_CmdParallel";
+            this.Btn_CmdParallel.Size = new Size(75, 25);
+            this.Btn_CmdParallel.TabIndex = 2;
+            this.Btn_CmdParallel.Text = "並列実行";
+            this.Btn_CmdParallel.UseVisualStyleBackColor = true;
+            this.Btn_CmdParallel.Click += this.BtnCmdParallel_Click;
             // 
             // Btn_CmdExecute
             // 
@@ -319,7 +370,7 @@
             this.Btn_CmdExecute.TabIndex = 2;
             this.Btn_CmdExecute.Text = "実行";
             this.Btn_CmdExecute.UseVisualStyleBackColor = true;
-            this.Btn_CmdExecute.Click += this.Btn_CmdExecute_Click;
+            this.Btn_CmdExecute.Click += this.BtnCmdExecuteClick;
             // 
             // Flp_Cmd
             // 
@@ -350,6 +401,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)this.splitContainer1).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.Gb_Items.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -383,5 +435,9 @@
         private Button Btn_CmdAdd;
         private Button button9;
         private Button button8;
+        private GroupBox groupBox3;
+        private Button BtnQClear;
+        private Button BtnQSClear;
+        private Button Btn_CmdParallel;
     }
 }

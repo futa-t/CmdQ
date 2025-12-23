@@ -18,6 +18,13 @@ public enum QItemStatus
     Failed
 }
 
+public enum QItemLogType
+{
+    StdOut,
+    StdErr,
+}
+public record QItemLog(string Text, QItemLogType Type = QItemLogType.StdOut);
+
 public class QItem(string path, QItemType type): INotifyPropertyChanged
 {
     public QItemType ItemType { get; } = type;
@@ -32,8 +39,7 @@ public class QItem(string path, QItemType type): INotifyPropertyChanged
         }
     } = QItemStatus.Pending;
 
-    public ObservableCollection<string> Logs { get; } = [];
-    public ObservableCollection<string> Errors { get; } = [];
+    public ObservableCollection<QItemLog> Logs { get; } = [];
     public string Command
     {
         get => field; set
@@ -44,12 +50,19 @@ public class QItem(string path, QItemType type): INotifyPropertyChanged
         }
     } = string.Empty;
 
-    public string Log => this.Logs.LastOrDefault(string.Empty);
-    public string Error => this.Errors.LastOrDefault(string.Empty);
-
+    public QItemLog? Log => this.Logs.LastOrDefault();
     public string Path { get; } = path;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     protected void OnPropertyChanged(string name) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+    private readonly object LogLock = new();
+    public void AddLog(string text, QItemLogType type = QItemLogType.StdOut)
+    {
+        lock (this.LogLock)
+        {
+            this.Logs.Add(new(text, type));
+        }
+    }
 }
 

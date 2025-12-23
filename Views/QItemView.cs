@@ -12,7 +12,6 @@ public partial class QItemView: UserControl
         this.Item = item;
         this.Item.PropertyChanged +=this.Item_PropertyChanged;
         this.Item.Logs.CollectionChanged += (s, e) => this.UpdateView();
-        this.Item.Errors.CollectionChanged += (s, e) => this.UpdateView();
         this.Lb_Item.Click += this.Lb_Item_Click;
         this.UpdateView();
     }
@@ -43,21 +42,25 @@ public partial class QItemView: UserControl
             _ => null
         };
         this.UpdateLog();
-        this.UpdateError();
-    }
-    private void UpdateError()
-    {
-        if (string.IsNullOrWhiteSpace(this.Item.Error)) return;
-        this.Lb_Log.ForeColor = Color.Crimson;
-        this.Lb_Log.Text = this.Item.Error;
-        this.Lb_Log.Visible = true;
     }
 
     private void UpdateLog()
     {
-        this.Lb_Log.ForeColor = SystemColors.ControlDarkDark;
-        this.Lb_Log.Text = this.Item.Log;
-        this.Lb_Log.Visible = !string.IsNullOrWhiteSpace(this.Item.Log);
+        var log = this.Item.Log;
+        if (log is null)
+        {
+            this.Lb_Log.Visible = false;
+            return;
+        }
+
+        this.Lb_Log.ForeColor = log.Type switch
+        {
+            QItemLogType.StdErr => Color.Crimson,
+            _ => SystemColors.ControlDarkDark,
+        };
+
+        this.Lb_Log.Text = log.Text;
+        this.Lb_Log.Visible = true;
     }
 
     private void Item_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -67,6 +70,11 @@ public partial class QItemView: UserControl
             this.Lb_Log.ForeColor = SystemColors.ControlDarkDark;
             this.Lb_Log.Text = this.Item.Command;
             this.Lb_Log.Visible = !string.IsNullOrWhiteSpace(this.Item.Command);
+        }
+        else
+        {
+            this.UpdateView();
+
         }
     }
 

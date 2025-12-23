@@ -108,11 +108,14 @@ public partial class Form1: Form
         var views = this.items.Select(i =>
         {
             var view = new QItemView(i);
+            view.OnExecute += this.View_OnExecute;
             view.OnDelete += this.View_OnDelete;
             return view;
         }).ToArray();
         this.Flp_Items.Controls.AddRange(views);
     }
+
+    private async void View_OnExecute(object? sender, QItemEventArgs e) => await this.RunCommand(e.Item);
 
     private void View_OnDelete(object? sender, QItemEventArgs e)
     {
@@ -187,6 +190,13 @@ public partial class Form1: Form
 
     private readonly AsyncLock LockRunning = new();
 
+    private async Task RunCommand(QItem item)
+    {
+        foreach (var cmd in this.commands)
+        {
+            await cmd.Run(item);
+        }
+    }
     private async Task CmdExecute()
     {
         using (await this.LockRunning.LockAsync())
@@ -196,10 +206,7 @@ public partial class Form1: Form
                 this.SetExecuteStatus(false);
                 foreach (var item in this.items)
                 {
-                    foreach (var cmd in this.commands)
-                    {
-                        await cmd.Run(item);
-                    }
+                    await this.RunCommand(item);
                 }
             }
             finally
@@ -222,12 +229,8 @@ public partial class Form1: Form
                 };
 
                 await Parallel.ForEachAsync(this.items, options, async (item, ct) =>
-                {
-                    foreach (var cmd in this.commands)
-                    {
-                        await cmd.Run(item);
-                    }
-                });
+                    await this.RunCommand(item)
+                );
             }
             finally
             {

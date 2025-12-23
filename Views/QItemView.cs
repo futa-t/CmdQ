@@ -8,6 +8,7 @@ public partial class QItemView: UserControl
 
     public event EventHandler<QItemEventArgs>? ClickEvent;
     public event EventHandler<QItemEventArgs>? OnDelete;
+    public event EventHandler<QItemEventArgs>? OnExecute;
     public QItemView(QItem item)
     {
         this.InitializeComponent();
@@ -86,7 +87,7 @@ public partial class QItemView: UserControl
     }
 
     private QLogWindow? logWindow;
-    private async void OpenLogView(object sender, EventArgs e)
+    private async void MenuOpenLogClick(object sender, EventArgs e)
     {
         if (this.logWindow is not null) return;
         this.logWindow = new(this.Item);
@@ -98,6 +99,10 @@ public partial class QItemView: UserControl
     private void MenuDeleteClick(object sender, EventArgs e)
     {
         this.OnDelete?.Invoke(this, new(this.Item));
+    }
+    private void MenuExecuteClick(object sender, EventArgs e)
+    {
+        this.OnExecute?.Invoke(this, new(this.Item));
     }
 
 }

@@ -32,9 +32,9 @@ partial class QItemView
         this.Pb_FileType = new PictureBox();
         this.Lb_Item = new Label();
         this.contextMenuStrip1 = new ContextMenuStrip(this.components);
-        this.実行ToolStripMenuItem = new ToolStripMenuItem();
-        this.ログを表示ToolStripMenuItem = new ToolStripMenuItem();
-        this.削除ToolStripMenuItem = new ToolStripMenuItem();
+        this.TsiExecute = new ToolStripMenuItem();
+        this.TsiOpenLog = new ToolStripMenuItem();
+        this.TsiDelete = new ToolStripMenuItem();
         this.Pb_Status = new PictureBox();
         this.Lb_Log = new Label();
         ((System.ComponentModel.ISupportInitialize)this.Pb_FileType).BeginInit();
@@ -69,31 +69,32 @@ partial class QItemView
         // 
         // contextMenuStrip1
         // 
-        this.contextMenuStrip1.Items.AddRange(new ToolStripItem[] { this.実行ToolStripMenuItem, this.ログを表示ToolStripMenuItem, this.削除ToolStripMenuItem });
+        this.contextMenuStrip1.Items.AddRange(new ToolStripItem[] { this.TsiExecute, this.TsiOpenLog, this.TsiDelete });
         this.contextMenuStrip1.Name = "contextMenuStrip1";
         this.contextMenuStrip1.ShowImageMargin = false;
         this.contextMenuStrip1.ShowItemToolTips = false;
         this.contextMenuStrip1.Size = new Size(156, 92);
         // 
-        // 実行ToolStripMenuItem
+        // TsiExecute
         // 
-        this.実行ToolStripMenuItem.Name = "実行ToolStripMenuItem";
-        this.実行ToolStripMenuItem.Size = new Size(155, 22);
-        this.実行ToolStripMenuItem.Text = "実行";
+        this.TsiExecute.Name = "TsiExecute";
+        this.TsiExecute.Size = new Size(155, 22);
+        this.TsiExecute.Text = "実行";
+        this.TsiExecute.Click += this.MenuExecuteClick;
         // 
-        // ログを表示ToolStripMenuItem
+        // TsiOpenLog
         // 
-        this.ログを表示ToolStripMenuItem.Name = "ログを表示ToolStripMenuItem";
-        this.ログを表示ToolStripMenuItem.Size = new Size(155, 22);
-        this.ログを表示ToolStripMenuItem.Text = "ログを表示";
-        this.ログを表示ToolStripMenuItem.Click += this.OpenLogView;
+        this.TsiOpenLog.Name = "TsiOpenLog";
+        this.TsiOpenLog.Size = new Size(155, 22);
+        this.TsiOpenLog.Text = "ログを表示";
+        this.TsiOpenLog.Click += this.MenuOpenLogClick;
         // 
-        // 削除ToolStripMenuItem
+        // TsiDelete
         // 
-        this.削除ToolStripMenuItem.Name = "削除ToolStripMenuItem";
-        this.削除ToolStripMenuItem.Size = new Size(155, 22);
-        this.削除ToolStripMenuItem.Text = "削除";
-        this.削除ToolStripMenuItem.Click += this.MenuDeleteClick;
+        this.TsiDelete.Name = "TsiDelete";
+        this.TsiDelete.Size = new Size(155, 22);
+        this.TsiDelete.Text = "削除";
+        this.TsiDelete.Click += this.MenuDeleteClick;
         // 
         // Pb_Status
         // 
@@ -150,7 +151,7 @@ partial class QItemView
     private PictureBox Pb_Status;
     private Label Lb_Log;
     private ContextMenuStrip contextMenuStrip1;
-    private ToolStripMenuItem ログを表示ToolStripMenuItem;
-    private ToolStripMenuItem 実行ToolStripMenuItem;
-    private ToolStripMenuItem 削除ToolStripMenuItem;
+    private ToolStripMenuItem TsiOpenLog;
+    private ToolStripMenuItem TsiExecute;
+    private ToolStripMenuItem TsiDelete;
 }
